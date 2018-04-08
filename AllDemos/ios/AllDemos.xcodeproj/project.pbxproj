@@ -24,6 +24,8 @@
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		1842531C207224B50087A02A /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 184252EB2072247D0087A02A /* libRCTCameraRoll.a */; };
 		1842532320722D240087A02A /* libRNCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1842532220722D110087A02A /* libRNCamera.a */; };
+		18560D50207A03A300EE5FDE /* XYPieChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 18560D27207A03A300EE5FDE /* XYPieChart.m */; };
+		18560D54207A044E00EE5FDE /* XYPieChartManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18560D53207A044E00EE5FDE /* XYPieChartManager.m */; };
 		18FE077920749E30002DA764 /* RCTDeviceExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FE077820749E30002DA764 /* RCTDeviceExtension.m */; };
 		18FE078A2074C154002DA764 /* RCTDeviceExtensionSecond.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FE07892074C154002DA764 /* RCTDeviceExtensionSecond.m */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
@@ -355,6 +357,10 @@
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		184252E12072247D0087A02A /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "../node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
 		1842531D20722D100087A02A /* RNCamera.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNCamera.xcodeproj; path = "../node_modules/react-native-camera/ios/RNCamera.xcodeproj"; sourceTree = "<group>"; };
+		18560D27207A03A300EE5FDE /* XYPieChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XYPieChart.m; path = AllDemos/XYPieChart.m; sourceTree = "<group>"; };
+		18560D4F207A03A300EE5FDE /* XYPieChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XYPieChart.h; path = AllDemos/XYPieChart.h; sourceTree = "<group>"; };
+		18560D52207A044E00EE5FDE /* XYPieChartManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = XYPieChartManager.h; path = AllDemos/XYPieChartManager.h; sourceTree = "<group>"; };
+		18560D53207A044E00EE5FDE /* XYPieChartManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = XYPieChartManager.m; path = AllDemos/XYPieChartManager.m; sourceTree = "<group>"; };
 		18FE077720749E30002DA764 /* RCTDeviceExtension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RCTDeviceExtension.h; path = AllDemos/RCTDeviceExtension.h; sourceTree = "<group>"; };
 		18FE077820749E30002DA764 /* RCTDeviceExtension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RCTDeviceExtension.m; path = AllDemos/RCTDeviceExtension.m; sourceTree = "<group>"; };
 		18FE07882074C154002DA764 /* RCTDeviceExtensionSecond.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RCTDeviceExtensionSecond.h; path = AllDemos/RCTDeviceExtensionSecond.h; sourceTree = "<group>"; };
@@ -506,6 +512,7 @@
 		13B07FAE1A68108700A75B9A /* AllDemos */ = {
 			isa = PBXGroup;
 			children = (
+				18560D51207A03E300EE5FDE /* CustomUI */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -558,6 +565,17 @@
 				1842532220722D110087A02A /* libRNCamera.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		18560D51207A03E300EE5FDE /* CustomUI */ = {
+			isa = PBXGroup;
+			children = (
+				18560D4F207A03A300EE5FDE /* XYPieChart.h */,
+				18560D27207A03A300EE5FDE /* XYPieChart.m */,
+				18560D52207A044E00EE5FDE /* XYPieChartManager.h */,
+				18560D53207A044E00EE5FDE /* XYPieChartManager.m */,
+			);
+			name = CustomUI;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
@@ -1182,9 +1200,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18560D54207A044E00EE5FDE /* XYPieChartManager.m in Sources */,
 				18FE077920749E30002DA764 /* RCTDeviceExtension.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				18560D50207A03A300EE5FDE /* XYPieChart.m in Sources */,
 				18FE078A2074C154002DA764 /* RCTDeviceExtensionSecond.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

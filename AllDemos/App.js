@@ -49,6 +49,8 @@ import GeolocationDemo from './demos/GeolocationDemo';
 import XMLHttpRequestDemo from './demos/XMLHttpRequestDemo';
 import SetTimeoutDemo from './demos/SetTimeoutDemo';
 import CustomNativeAPIComponent from './demos/CustomNativeAPIComponent';
+import CustomNativeUIComponent from './demos/CustomNativeUIComponent';
+
 
 
 
@@ -83,6 +85,7 @@ var DEMO_NAME_ARR = [
     'XMLHttpRequestDemo',
     'SetTimeoutDemo',
     'CustomNativeAPIComponent',
+    'CustomNativeUIComponent',
     'TextDemo',
     'MovieListDemo',
 
@@ -344,6 +347,9 @@ class HomePage extends Component {
 
         }else if (demoName ==='CustomNativeAPIComponent'){
             demo = CustomNativeAPIComponent;
+
+        }else if (demoName ==='CustomNativeUIComponent'){
+            demo = CustomNativeUIComponent;
 
         }
 

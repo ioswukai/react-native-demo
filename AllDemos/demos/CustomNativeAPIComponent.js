@@ -322,7 +322,8 @@ import {CustomStyles,NavigateBar} from './CustomStyles';
 // 取出我们自定义Native的DeviceExtension模块
 let DeviceExtension =  NativeModules.DeviceExtension;
 let DeviceExtensionSecond = NativeModules.DeviceExtensionSecond;
-
+// 通过DeviceExtensionSecond创建NativeEventEmitter 的实例  自定义事件接口
+let myNativeEvt = new NativeEventEmitter(DeviceExtensionSecond);
 
 export default class CustomNativeAPIComponent extends Component<Props> {
     componentDidMount() {
@@ -343,8 +344,6 @@ export default class CustomNativeAPIComponent extends Component<Props> {
         })
 
         // 注册屏幕旋转通知
-        // 通过DeviceExtensionSecond创建NativeEventEmitter 的实例  自定义事件接口
-        let myNativeEvt = new NativeEventEmitter(DeviceExtensionSecond);
         this.subscriptionSecond = myNativeEvt.addListener(DeviceExtensionSecond.EVENT_ORIENTATION_SECOND,(dimensions)=>{
             console.log('我是DeviceExtensionSecond',dimensions);
         })
