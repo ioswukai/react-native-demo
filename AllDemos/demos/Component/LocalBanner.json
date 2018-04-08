@@ -1,0 +1,8 @@
+[
+  {"platform": "wap,android,ios", "title": "春 计之财", "image": "/upload/banner/18springs.png", "click": "https://www.heyunchou.com/iwap_18chun/"},
+  {"platform": "wap,android,ios", "title": "邀请好友奖励活动", "image": "/upload/banner/banner_17sep_wap.jpg", "click": "https://www.heyunchou.com/iwap_17sep/"},
+  {"platform": "wap,android,ios", "title": "廊坊银行资金存管", "image": "/upload/banner/banner_huizhan_wap.png", "click": "https://www.heyunchou.com/iwap_cgsx/"},
+  {"platform": "wap,android,ios", "title": "等保三级认证", "image": "/upload/app/a_banner/banner11.png", "click": "https://www.heyunchou.com/certification/"},
+  {"platform": "wap,android,ios", "title": "合规进程报告", "image": "/upload/banner/iwap_hegui2.jpg", "click": "http://www.heyunchou.com/iwap_compliance"},
+  {"platform": "wap,android,ios", "title": "和云筹直播间", "image": "/upload/banner/banner_panda_app.png", "click": "https://www.panda.tv/986895"}
+]
