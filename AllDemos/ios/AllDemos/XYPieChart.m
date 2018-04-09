@@ -675,16 +675,6 @@ static CGPathRef CGPathCreateArc(CGPoint center, CGFloat radius, CGFloat startAn
     [CATransaction setDisableActions:NO];
 }
 #pragma mark - 修改自定义组件的布局
-/*XYPieChart并不支持自适应，我们必须对此进行修改，以便在布局时
- UI的大小发生改变后重绘图形，这样才可以通过JS的样式来操作扩展的UI
- 组件了*/
--(void)layoutSubviews{
-  [super layoutSubviews];
-  if (!CGRectEqualToRect(self.bounds, _pieView.bounds)) {
-    [self initPieView];
-    [self reloadData];
-  }
-}
 -(void)initPieView{
   // 重建图层
   if (_pieView) {
@@ -698,7 +688,19 @@ static CGPathRef CGPathCreateArc(CGPoint center, CGFloat radius, CGFloat startAn
   _pieCenter = CGPointMake(_pieView.bounds.size.width/2, _pieView.bounds.size.height/2);
   _labelFont = [UIFont boldSystemFontOfSize:MAX((int)_pieRadius/10, 10)];
   _labelColor = [UIColor whiteColor];
+
   _labelRadius = _pieRadius/2;
   _selectedSliceOffsetRadius = MAX(10, _pieRadius/10);
 }
+/*XYPieChart并不支持自适应，我们必须对此进行修改，以便在布局时
+ UI的大小发生改变后重绘图形，这样才可以通过JS的样式来操作扩展的UI
+ 组件了*/
+-(void)layoutSubviews{
+  [super layoutSubviews];
+  if (!CGRectEqualToRect(self.bounds, _pieView.bounds)) {
+    [self initPieView];
+    [self reloadData];
+  }
+}
+
 @end

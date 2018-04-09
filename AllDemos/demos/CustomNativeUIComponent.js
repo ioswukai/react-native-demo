@@ -11,6 +11,10 @@ import {
     TouchableOpacity,
     // 导入Native UI 组件集合
     requireNativeComponent,
+    // 找到组件的reactTag
+    findNodeHandle,
+    // 所有的Native组件,为了调用native组件的方法
+    NativeModules,
     View
 } from 'react-native';
 
@@ -139,15 +143,17 @@ import {CustomStyles,NavigateBar} from './CustomStyles';
      使用RCTUIManager维护的ViewRegistry，通过reactTag获得调用方法的组件实例：
      RCT_EXPORT_METHOD(reload:(NSNumber*)reactTag){
         [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager*uiManager,
-        RCTSparseArray*viewRegistry){
+        NSDictionary*viewRegistry){
             id view = viewRegistry[reactTag];
             // 完成对控件重载方法的调用
         }];
      }
 
-    在JS中需要对组件设置ref，调用方法事通过应用React.findNodeHandle(ref)来获取组件的reactTag，
-    然后将其作为组件模块方法对应的参数传入：
+    在JS中需要对组件设置ref，在react-native里引入findNodeHandle 调用方法时 通过应用findNodeHandle(ref)来获取
+    组件的reactTag，然后在react-native里引入NativeModules，在NativeModules中导出组件模块  将其reactTag作为
+    组件模块方法对应的 参数  传入：
     var RCT_UI_REF = ...;
+    var RCTCustomUIManager = NativeModules.CustomUIManager;
     <RCTCustomUI
         ref = {RCT_UI_REF}
         ...
@@ -215,11 +221,15 @@ import {CustomStyles,NavigateBar} from './CustomStyles';
 
 // 导入自定义的Native UI 模块
 let XYPieChart = requireNativeComponent('XYPieChart',null);
+// 导入自定义的Native UI 模块的类 以便调用OC方法
+let XYPieChartManager =  NativeModules.XYPieChartManager;
+
 let chartData =[
-    {'label':'Chrome',value:36,color:0x008800},
-    {'label':'IE8.0',value:22,color:0x0044bb},
-    {'label':'Other',value:42,color:0x444444}
+    {'label':'Chrome',value:36,color:[0,0.5,0.5]},
+    {'label':'IE8.0',value:22,color:[0.5,0,0.5]},
+    {'label':'Other',value:42,color:[0.5,0.5,0]}
 ];
+let RCT_UI_REF = 'XYPieChart';
 
 export default class CustomNativeUIComponent extends Component<Props> {
 
@@ -234,13 +244,27 @@ export default class CustomNativeUIComponent extends Component<Props> {
                 {/*显示Native UI 模块*/}
                 <XYPieChart
                     style={styles.chart}
+
+                    // 为扩展的属性赋值
                     chartData={chartData}
                     showPercentage={false}
+                    // showPercentage={true}
+
+                    // 接受扩展的事件 事件需要以on开头
+                    // native发送来的change事件
+                    onChange={(body)=>{this.selectHandler(body)}}
+                    // native发送来的自定义customEvent事件
+                    onCustomEvent={(body)=>{this.selectHandler(body)}}
+                    // native发送来的自定义RCTBubblingEventBlock事件
+                    onClickSlice={(body)=>{this.selectHandler(body)}}
+
+                    // 为扩展组件发送事件时的索引
+                    ref={RCT_UI_REF}
                 />
 
                 <TouchableOpacity activeOpacity={0.5} onPress={()=>{this.doSomething()}}>
                     <View style={{backgroundColor:'orange',height:40,marginLeft:30,marginRight:30,marginTop:20,alignItems:'center',justifyContent:'center',}}>
-                        <Text>我是{NavigateBar.getComponentName(this)}</Text>
+                        <Text>刷新文本为哈哈</Text>
                     </View>
                 </TouchableOpacity>
             </View>
@@ -248,7 +272,23 @@ export default class CustomNativeUIComponent extends Component<Props> {
     }
 
     doSomething(){
-        console.log(requireNativeComponent);
+        // 刷新UI
+        let chartData =[
+            {'label':'哈哈',value:36,color:[0,0.5,0.5]},
+            {'label':'哈哈',value:22,color:[0.5,0,0.5]},
+            {'label':'哈哈',value:42,color:[0.5,0.5,0]}
+        ];
+
+        console.log('XYPieChartManager 是',XYPieChartManager,);
+        console.log('XYPieChart 是',XYPieChart);
+
+        // 为扩展组件发送事件 传递reactTag 过去 findNodeHandle(this.refs[RCT_UI_REF])
+        XYPieChartManager.reload(findNodeHandle(this.refs[RCT_UI_REF]),chartData);
+    }
+
+    selectHandler=(body)=>{
+        // nativeEvent 是小写的
+        console.log(body.nativeEvent.data);
     }
 }
 

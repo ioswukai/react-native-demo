@@ -27,6 +27,7 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
+#import <React/RCTUIManager.h>
 
 @class XYPieChart;
 @protocol XYPieChartDataSource <NSObject>
@@ -47,6 +48,9 @@
 @end
 
 @interface XYPieChart : UIView
+// 设置点击给JS的回调
+@property (nonatomic, copy) RCTBubblingEventBlock onClickSlice;
+
 @property(nonatomic, weak) id<XYPieChartDataSource> dataSource;
 @property(nonatomic, weak) id<XYPieChartDelegate> delegate;
 @property(nonatomic, assign) CGFloat startPieAngle;
