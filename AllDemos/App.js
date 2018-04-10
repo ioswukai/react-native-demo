@@ -50,6 +50,8 @@ import XMLHttpRequestDemo from './demos/XMLHttpRequestDemo';
 import SetTimeoutDemo from './demos/SetTimeoutDemo';
 import CustomNativeAPIComponent from './demos/CustomNativeAPIComponent';
 import CustomNativeUIComponent from './demos/CustomNativeUIComponent';
+import CustomCalendarDemo from './demos/CustomCalendarDemo';
+
 
 
 
@@ -86,6 +88,7 @@ var DEMO_NAME_ARR = [
     'SetTimeoutDemo',
     'CustomNativeAPIComponent',
     'CustomNativeUIComponent',
+    'CustomCalendarDemo',
     'TextDemo',
     'MovieListDemo',
 
@@ -248,9 +251,9 @@ class HomePage extends Component {
         return (
             // 设置触摸事件
         <TouchableOpacity activeOpacity={0.5} onPress={()=> this.gotoDemoWithName(demoName)}>
-            // cell
+            {/*cell*/}
             <View style={styles.cellView}>
-                // contentV
+                {/*contentV*/}
                 <View style={styles.bgView}>
                     <Text style={styles.title}>{demoName}</Text>
                 </View>
@@ -350,6 +353,9 @@ class HomePage extends Component {
 
         }else if (demoName ==='CustomNativeUIComponent'){
             demo = CustomNativeUIComponent;
+
+        }else if (demoName ==='CustomCalendarDemo'){
+            demo = CustomCalendarDemo;
 
         }
 

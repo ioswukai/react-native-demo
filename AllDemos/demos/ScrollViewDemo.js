@@ -141,9 +141,9 @@ export default class ScrollViewDemo1 extends Component<Props> {
 
                 </ScrollView>
 
-                // 返回指示器
+                {/*返回指示器*/}
                 <View style={styles1.pageVSty}>
-                    // 返回5个原点
+                    {/*返回5个原点*/}
                     {this.randerPageCircle()}
                 </View>
 
