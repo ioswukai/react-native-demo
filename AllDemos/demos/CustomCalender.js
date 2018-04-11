@@ -22,26 +22,19 @@ import {CustomStyles,NavigateBar} from './CustomStyles';
 
 /*************************第一个例子 CustomCalender*******************************/
 
-// const monthStartWeekKey = 'monthStartWeekKey';
-// const monthDaysKey = 'monthDaysKey';
-// const monthRowCountsKey = 'monthRowCountsKey';
-// const currentDateKey = 'currentDateKey';
-
 // 引入Dimensions类库
 import  Dimensions from 'Dimensions';
 let {width} = Dimensions.get('window');
 let itemW = width/7.0-0.1;
+let headerH = 35.0;
 
 // 导入时间第三方库
 import moment from 'moment';
 
-
-
-
 export default class CustomCalender extends Component<Props> {
     // 提供接口
     static defaultProps={
-        startTime:new Date(),
+        startTime:moment(),
         holiday:{},
         check:{},
         headerStyle:{},
@@ -63,17 +56,12 @@ export default class CustomCalender extends Component<Props> {
           };
     }
 
-    componentDidMount() {
-        alert(moment().format('YYYY-MM-DD HH:mm:ss'));
-    }
-
     render() {
         let monthsData = this.getAllMonthsInfo();
         console.log('渲染了SectionList组件,数据源是=',monthsData);
 
         return (
             <View >
-
                 {/*渲染日历的头部*/}
                 {this.renderCalenderHeader()}
 
@@ -90,6 +78,8 @@ export default class CustomCalender extends Component<Props> {
                     keyExtractor={this._keyExtractor}
                     // 设置header是否粘在上面 true 粘住
                     stickySectionHeadersEnabled={false}
+                    // SectionList 显示不全 少了显示了renderCalenderHeader高度的内容
+                    style={{marginBottom:headerH}}
                     // 设置List样式
                     // contentContainerStyle={styles.contentSty}
                     // 默认渲染前四个月
@@ -173,7 +163,6 @@ export default class CustomCalender extends Component<Props> {
         let item = info.item;
         let text = item.title;
 
-
         // 取得当前Item对应的 年份和月份 以及天
         let year = item.yearNumKey;
         let month = item.monthNumKey;
@@ -187,22 +176,11 @@ export default class CustomCalender extends Component<Props> {
             text = this.state.holiday[formatStr];
         }
 
-        // 取得今天的年
-        let todayYear = this.state.startTime.getFullYear();
-        // 取得今天的月
-        let todayMonth = this.state.startTime.getMonth()+1;
+        // 开始日期对应的 年份和月份 以及天
+        let todayYear = this.state.startTime.year();
+        let todayMonth = this.state.startTime.month()+1;
+        let todayDay = this.state.startTime.format('DD')-0;
 
-        let todayDate = this.state.startTime.toLocaleDateString();
-        // 以 / 切割字符串
-        let todayDateArr =todayDate.split("/");
-        // console.log('todayDateArr',todayDateArr);
-
-        let todayDay = 1;
-        let length = todayDateArr.length;
-        if (length){
-            // 取得今天的日
-            todayDay =  (todayDateArr[length-1])-0;
-        }
         // console.log('year',year,'month',month,'day',day);
         // console.log('todayYear',todayYear,'todayMonth',todayMonth,'todayDay',todayDay);
 
@@ -222,7 +200,20 @@ export default class CustomCalender extends Component<Props> {
         let dayBgSty = {
             backgroundColor:'white',
         };
+
+        if(day>0&&todayYear>=year&&todayMonth>=month&&todayDay===day){
+            // 当天的日期
+            dayBgSty = {
+                backgroundColor:'salmon',
+            };
+
+            dayCheckSty = {
+                color:'white',
+            };
+        }
+
         if (this.state.check[formatStr]){
+            // 被选中的日期
             dayBgSty = {
                 backgroundColor:'#1eb7ff',
             };
@@ -307,35 +298,56 @@ export default class CustomCalender extends Component<Props> {
 
     // 每个月需要知道的信息
     getMonthInfo=(monthNum)=>{
-        // 开始日期
+        // 开始日期对象
         let date = this.state.startTime;
+        // 开始日期所在的年份
+        let year = date.year();
+        // 开始日期所在的月份 0----11
+        let month = date.month() +1;
 
-        // 本月的月份对象
-        let currentDate = new Date(date.getFullYear(),date.getMonth()+1+monthNum,0)
+        // 月份num
+        let currentMonth = (month + monthNum)%12;
+        if(currentMonth===0){
+            // 一年的结尾是12月
+            currentMonth = 12;
+        }
+
+        // 年num
+        let currentYear = year;
+        if((month + monthNum)>12){
+            // 大于12个月 也就是 跨年了
+            currentYear +=  Math.floor((month + monthNum)/12);
+        }
+
 
         // 本月是xx年xx月
-        let monthTitle = currentDate.getFullYear().toString()+'年'+(currentDate.getMonth()+1).toString()+'月';
+        let monthTitle = currentYear.toString()+'年'+currentMonth.toString()+'月';
 
-        // 本月1号 是周几
-        let monthStartWeek = new Date(date.getFullYear(),date.getMonth()+monthNum,1).getDay();
+        // 本月的日期对象
+        let firstDay = currentYear.toString()+'-'+currentMonth.toString()+'-1';
+        let currentMoment = moment(firstDay,"YYYY-MM-DD");
+
+        // 本月的1号是周几
+        // 0----6  0为周日
+        let monthStartWeek = currentMoment.format('d')-0;
         if (monthStartWeek===0){
             monthStartWeek = 7;
         }
 
-        // 本月的天数
-        let monthDays = currentDate.getDate();
+        // 本月的天数 及时最后一天
+        let monthDays = currentMoment.endOf("month").format('DD')-0;
 
         // 日历的行数
-        let monthRowCounts = Math.ceil((monthDays+monthStartWeek-1)/7);
+        // let monthRowCounts = Math.ceil((monthDays+monthStartWeek-1)/7);
 
         // 返回本月的信息
         return {
             monthTitleKey:monthTitle,
             monthStartWeekKey:monthStartWeek,
             monthDaysKey:monthDays,
-            monthRowCountsKey:monthRowCounts,
-            monthNumKey:(currentDate.getMonth()+1),
-            yearNumKey:currentDate.getFullYear(),
+            // monthRowCountsKey:monthRowCounts,
+            monthNumKey:currentMonth,
+            yearNumKey:currentYear,
         };
     }
 
@@ -347,7 +359,7 @@ const styles = StyleSheet.create({
         flexWrap:'wrap',
     },
     headerBgSty:{
-        height:35,
+        height:headerH,
         backgroundColor:'#a0522d',
         alignItems:'center',
     },
@@ -361,7 +373,7 @@ const styles = StyleSheet.create({
     },
     sectionSty:{
         width:width,
-        height:35,
+        height:headerH,
         justifyContent:'center',
         alignItems:'center',
         backgroundColor:'darkcyan',
