@@ -51,6 +51,7 @@ import SetTimeoutDemo from './demos/SetTimeoutDemo';
 import CustomNativeAPIComponent from './demos/CustomNativeAPIComponent';
 import CustomNativeUIComponent from './demos/CustomNativeUIComponent';
 import CustomCalendarDemo from './demos/CustomCalendarDemo';
+import BannerDemo from './demos/BannerDemo';
 
 
 
@@ -89,6 +90,7 @@ var DEMO_NAME_ARR = [
     'CustomNativeAPIComponent',
     'CustomNativeUIComponent',
     'CustomCalendarDemo',
+    'BannerDemo',
     'TextDemo',
     'MovieListDemo',
 
@@ -356,6 +358,9 @@ class HomePage extends Component {
 
         }else if (demoName ==='CustomCalendarDemo'){
             demo = CustomCalendarDemo;
+
+        }else if (demoName ==='BannerDemo'){
+            demo = BannerDemo;
 
         }
 
