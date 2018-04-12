@@ -52,6 +52,8 @@ import CustomNativeAPIComponent from './demos/CustomNativeAPIComponent';
 import CustomNativeUIComponent from './demos/CustomNativeUIComponent';
 import CustomCalendarDemo from './demos/CustomCalendarDemo';
 import BannerDemo from './demos/BannerDemo';
+import ReactNativeModalShow from './demos/ReactNativeModalShow';
+
 
 
 
@@ -91,6 +93,7 @@ var DEMO_NAME_ARR = [
     'CustomNativeUIComponent',
     'CustomCalendarDemo',
     'BannerDemo',
+    'ReactNativeModalShow',
     'TextDemo',
     'MovieListDemo',
 
@@ -362,7 +365,11 @@ class HomePage extends Component {
         }else if (demoName ==='BannerDemo'){
             demo = BannerDemo;
 
+        }else if (demoName ==='ReactNativeModalShow'){
+            demo = ReactNativeModalShow;
+
         }
+
 
 
         // 配置跳转页面数据
