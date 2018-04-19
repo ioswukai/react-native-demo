@@ -14,7 +14,7 @@ import NavigateBar from './CustomNavigateBar'
 export default class ViewDemo extends Component<Props> {
     render() {
         return (
-            // 必须是一个根view
+            // 必须是一个根view 不能返回多个组件
         <View style={styles.container}>
             {/*渲染导航栏*/}
             <NavigateBar

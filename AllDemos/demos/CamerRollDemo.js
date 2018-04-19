@@ -361,7 +361,7 @@ export default class CamerRollDemo extends Component<Props> {
     这个例子主要包括两个功能：前置摄像头，和后置摄像头的切换、拍照
 */
 
-// import RNCamera from 'react-native-camera';
+import RNCamera from 'react-native-camera';
 // export default class ReactNativeCamera extends Component<Props> {
 class ReactNativeCamera extends Component<Props> {
     // 构造
@@ -394,7 +394,7 @@ class ReactNativeCamera extends Component<Props> {
   //             />
   //
   //             {/*照相机*/}
-  //             <Camera
+  //             <RNCamera
   //                 ref = 'cam'
   //                 style={styles.CameraSty}
   //                 onBarCodeRead={(e)=>{this._onBarCodeRead(e)}}
@@ -406,7 +406,7 @@ class ReactNativeCamera extends Component<Props> {
   //                 <TouchableOpacity style={{marginTop:30}} activeOpacity={0.5} onPress={()=>{this._takePic}}>
   //                     <Text>照相</Text>
   //                 </TouchableOpacity>
-  //             </Camera>
+  //             </RNCamera>
   //         </View>
   //     );
   // }

@@ -7,11 +7,17 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  ListView,
   TouchableOpacity,
+  SectionList,
   Text,
   View
 } from 'react-native';
+
+
+// 引入Dimensions类库
+import  Dimensions from 'Dimensions';
+let {width} = Dimensions.get('window');
+let headerH = 45;
 
 // 引入Navigator 库
 import {Navigator} from 'react-native-deprecated-custom-components';
@@ -20,23 +26,29 @@ import {Navigator} from 'react-native-deprecated-custom-components';
 import NavigateBar from './demos/CustomNavigateBar'
 
 
+// 组件
 import ViewDemo from './demos/ViewDemo'
-import FlexboxDemo from './demos/FlexboxDemo'
 import TextDemo from './demos/TextDemo'
-import NavigatorIOSDemo from './demos/NavigatorIOSDemo'
 import TextInputDemo from './demos/TextInputDemo'
-import TouchableDemo from './demos/TouchableDemo'
-import MovieListDemo from './demos/MovieListDemo'
-import DimensionsDemo from './demos/DimensionsDemo'
 import ImageDemo from './demos/ImageDemo'
-import QQLoginUIDemo from './demos/QQLoginUIDemo'
-import LifeCycleDemo from './demos/LifeCycleDemo'
+import TouchableDemo from './demos/TouchableDemo'
 import ScrollViewDemo from './demos/ScrollViewDemo'
-import ListViewDemo from './demos/ListViewDemo'
-import TabBarIOSDemo from './demos/TabBarIOSDemo'
-import NavigationDemo from './demos/ReactNavigationDemo'
-import Inherits from './demos/InheritsDemo'
 import Web from './demos/WebViewDemo'
+import NavigatorIOSDemo from './demos/NavigatorIOSDemo'
+import TabBarIOSDemo from './demos/TabBarIOSDemo'
+import ListViewDemo from './demos/ListViewDemo'
+import QQLoginUIDemo from './demos/QQLoginUIDemo'
+import MovieListDemo from './demos/MovieListDemo'
+import CustomCalendarDemo from './demos/CustomCalendarDemo';
+
+
+// API
+import FlexboxDemo from './demos/FlexboxDemo'
+import LifeCycleDemo from './demos/LifeCycleDemo'
+import Inherits from './demos/InheritsDemo'
+import XMLHttpRequestDemo from './demos/XMLHttpRequestDemo';
+import SetTimeoutDemo from './demos/SetTimeoutDemo';
+import DimensionsDemo from './demos/DimensionsDemo'
 import Storage from './demos/AsyncStorageDemo'
 import Alert from './demos/AlertIOSDemo';
 import PixelRatioDemo from './demos/PixelRatioDemo';
@@ -46,38 +58,54 @@ import NetInfoDemo from './demos/NetInfoDemo';
 import CamerRollDemo from './demos/CamerRollDemo';
 import VibrationIOSDemo from './demos/VibrationIOSDemo';
 import GeolocationDemo from './demos/GeolocationDemo';
-import XMLHttpRequestDemo from './demos/XMLHttpRequestDemo';
-import SetTimeoutDemo from './demos/SetTimeoutDemo';
 import CustomNativeAPIComponent from './demos/CustomNativeAPIComponent';
 import CustomNativeUIComponent from './demos/CustomNativeUIComponent';
-import CustomCalendarDemo from './demos/CustomCalendarDemo';
+
+
+// 第三方组件demo
+import NavigationDemo from './demos/ReactNavigationDemo'
 import BannerDemo from './demos/BannerDemo';
 import ReactNativeModalShow from './demos/ReactNativeModalShow';
 
+// ECMAScript6入门
+import ES6LetAndConstCommand from './demos/ES6LetAndConstCommandDemo';
 
 
+// ECMAScript6入门demo
+var DEMO_NAME_ES6_ARR = [
+    'let和const命令',
+    '变量的解构赋值',
+    '字符串的扩展',
+    '正则的扩展',
+    '数值的扩展',
+];
 
 
-
-
-
-var DEMO_NAME_ARR = [
-    '类的继承',
+// 组件类型demo
+var DEMO_NAME_COMPONENT_ARR = [
     'ViewDemo',
-    'FlexboxDemo',
-    'DimensionsDemo',
-    'ImageDemo',
+    'TextDemo',
     'TextInputDemo',
-    'QQLoginUIDemo',
+    'ImageDemo',
     'TouchableDemo',
-    'LifeCycleDemo',
     'ScrollViewDemo',
-    'ListViewDemo',
     'WebViewDemo',
-    'TabBarIOSDemo',
     'NavigatorIOSDemo',
-    // 官方推荐的新库
-    'ReactNavigationDemo',
+    'TabBarIOSDemo',
+    'ListViewDemo',
+    'QQLoginUIDemo',
+    'MovieListDemo',
+    'CustomCalendarDemo',
+];
+
+// API类型demo
+var DEMO_NAME_API_ARR = [
+    'FlexboxDemo',
+    'LifeCycleDemo',
+    '类的继承',
+    'XMLHttpRequestDemo',
+    'SetTimeoutDemo',
+    'DimensionsDemo',
     'AsyncStorageDemo',
     'AlertIOSDemo',
     'PixelRatioDemo',
@@ -87,16 +115,35 @@ var DEMO_NAME_ARR = [
     'CamerRollDemo',
     'VibrationIOSDemo',
     'GeolocationDemo',
-    'XMLHttpRequestDemo',
-    'SetTimeoutDemo',
     'CustomNativeAPIComponent',
     'CustomNativeUIComponent',
-    'CustomCalendarDemo',
+];
+
+// 第三方库类型demo
+var DEMO_NAME_Third_ARR = [
+    'ReactNavigationDemo',
     'BannerDemo',
     'ReactNativeModalShow',
-    'TextDemo',
-    'MovieListDemo',
+];
 
+
+var DEMO_NAME_ARR = [
+    {
+        key:'ECMAScript6入门Demo',
+        data:DEMO_NAME_ES6_ARR,
+    },
+    {
+        key:'组件类型demo',
+        data:DEMO_NAME_COMPONENT_ARR,
+    },
+    {
+        key:'API类型demo',
+        data:DEMO_NAME_API_ARR,
+    },
+    {
+        key:'第三方库类型demo',
+        data:DEMO_NAME_Third_ARR,
+    },
 ];
 
 type Props = {};
@@ -171,11 +218,6 @@ class HomePage extends Component {
         super(props);
         // 初始状态
         this.state = {
-            // 页面名称
-            // 设置数据源
-            dataSource:new ListView.DataSource({
-                rowHasChanged: (row1, row2) => row1 !== row2,
-            }),
             // 设置加载标志
             loaded: false,
         };
@@ -199,8 +241,6 @@ class HomePage extends Component {
     fetchData(){
         // console.log('调用fetchData了');
         this.setState({
-            // 设置数据源  cloneWithRows 需要传递一个数组
-            dataSource: this.state.dataSource.cloneWithRows(DEMO_NAME_ARR),
             loaded: true,
         });
     }
@@ -222,11 +262,19 @@ class HomePage extends Component {
                     component = {this}
                     needBackBtn={false}
                 />
-                <ListView
-                    dataSource={this.state.dataSource}
-                    // 设置渲染对象
-                    renderRow={this.renderDemoItem}
-                    style={styles.listView}
+
+                {/*渲染日历的月份*/}
+                <SectionList
+                    renderSectionHeader={this.renderHeader}
+                    // 每个item的对象都是一个FlatList
+                    renderItem={this.renderDemoItem}
+                    sections={DEMO_NAME_ARR}
+                    // 为给定的item生成一个不重复的key。Key的作用是使React能够区分同类元素的不同个体，
+                    // 以便在刷新时能够确定其变化的位置，减少重新渲染的开销。
+                    keyExtractor={this._keyExtractor}
+                    // 不让自动调整
+                    automaticallyAdjustContentInsets={false}
+                    style={{marginTop:64}}
                 />
             </View>
         );
@@ -248,19 +296,50 @@ class HomePage extends Component {
         );
     }
 
+    // 生成特定的不重复的key
+    _keyExtractor=(item, index)=>{
+        return index.toString();
+    }
+
+    // 组装header
+    renderHeader=(info)=>{
+        let text = info.section.key;
+        return(
+            <View style={[styles.sectionSty]}>
+                <Text style={styles.sectionTextSty}>{text}</Text>
+            </View>
+        );
+    }
+
     // 组装cell
-    renderDemoItem=(demoName,sectionID,rowID,highlightRow)=>{
+    renderDemoItem=(info)=>{
         // 打印消息
-        // console.log(demoName,sectionID,rowID);
-        // console.log('renderDemoItem里的'+this);
+        // console.log(info);
+        // 取出对应的item
+        let text = info.item;
+        // 取出item对应的索引
+        let itemIndex = info.index;
+        // 取出item所在section的data数组长度
+        let dataLength = info.section.data.length;
+
+        // 设置最后一行的样式
+        let styleLast = {};
+        // 最后一个行
+        if (itemIndex == dataLength-1){
+            styleLast = {
+                marginBottom:10,
+            };
+        }
+
+        // 渲染
         return (
             // 设置触摸事件
-        <TouchableOpacity activeOpacity={0.5} onPress={()=> this.gotoDemoWithName(demoName)}>
+        <TouchableOpacity style={styleLast} activeOpacity={0.5} onPress={()=> this.gotoDemoWithName(text)}>
             {/*cell*/}
             <View style={styles.cellView}>
                 {/*contentV*/}
                 <View style={styles.bgView}>
-                    <Text style={styles.title}>{demoName}</Text>
+                    <Text style={styles.title}>{text}</Text>
                 </View>
             </View>
         </TouchableOpacity>
@@ -370,6 +449,11 @@ class HomePage extends Component {
 
         }
 
+        else if (demoName ==='let和const命令'){
+            demo = ES6LetAndConstCommand;
+
+        }
+
 
 
         // 配置跳转页面数据
@@ -398,6 +482,17 @@ const styles = StyleSheet.create({
     listView: {
         marginTop:64,
         // backgroundColor: 'white',
+    },
+    sectionSty:{
+        width:width,
+        height:headerH,
+        justifyContent:'center',
+        alignItems:'center',
+        backgroundColor:'darkcyan',
+    },
+    sectionTextSty:{
+        fontSize:20,
+        color:'white',
     },
     cellView: {
         flex: 1,
