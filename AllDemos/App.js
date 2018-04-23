@@ -68,7 +68,14 @@ import BannerDemo from './demos/BannerDemo';
 import ReactNativeModalShow from './demos/ReactNativeModalShow';
 
 // ECMAScript6入门
+/*let和const命令*/
 import ES6LetAndConstCommand from './demos/ES6LetAndConstCommandDemo';
+
+
+
+
+/*最新提案*/
+import ES6NewestMotion from './demos/ES6NewestMotionDemo';
 
 
 // ECMAScript6入门demo
@@ -78,6 +85,7 @@ var DEMO_NAME_ES6_ARR = [
     '字符串的扩展',
     '正则的扩展',
     '数值的扩展',
+    '最新提案',
 ];
 
 
@@ -449,8 +457,16 @@ class HomePage extends Component {
 
         }
 
+
         else if (demoName ==='let和const命令'){
             demo = ES6LetAndConstCommand;
+
+        }
+
+
+
+        else if (demoName ==='最新提案'){
+            demo = ES6NewestMotion;
 
         }
 
