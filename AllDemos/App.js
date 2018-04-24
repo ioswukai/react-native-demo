@@ -70,6 +70,7 @@ import ReactNativeModalShow from './demos/ReactNativeModalShow';
 // ECMAScript6入门
 /*let和const命令*/
 import ES6LetAndConstCommand from './demos/ES6LetAndConstCommandDemo';
+import ES6VarJieGouFuZhi from './demos/ES6VarJieGouFuZhiDemo';
 
 
 
@@ -460,6 +461,9 @@ class HomePage extends Component {
 
         else if (demoName ==='let和const命令'){
             demo = ES6LetAndConstCommand;
+
+        }else if (demoName ==='变量的解构赋值'){
+            demo = ES6VarJieGouFuZhi;
 
         }
 

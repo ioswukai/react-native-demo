@@ -1,3 +1,5 @@
+
+
 /*************************************** 最新提案 Demo *****************************************/
 
 import React, { Component } from 'react';
@@ -33,6 +35,5 @@ export default class ES6NewestMotion extends Component<Props> {
 
     /***************** 1. *****************/
 
-    // 验证
 
 }
