@@ -70,7 +70,11 @@ import ReactNativeModalShow from './demos/ReactNativeModalShow';
 // ECMAScript6入门
 /*let和const命令*/
 import ES6LetAndConstCommand from './demos/ES6LetAndConstCommandDemo';
+/*变量的解构赋值*/
 import ES6VarJieGouFuZhi from './demos/ES6VarJieGouFuZhiDemo';
+/*字符串的扩展*/
+import ES6StringExtension from './demos/ES6StringExtensionDemo';
+
 
 
 
@@ -80,7 +84,7 @@ import ES6NewestMotion from './demos/ES6NewestMotionDemo';
 
 
 // ECMAScript6入门demo
-var DEMO_NAME_ES6_ARR = [
+const DEMO_NAME_ES6_ARR = [
     'let和const命令',
     '变量的解构赋值',
     '字符串的扩展',
@@ -91,7 +95,7 @@ var DEMO_NAME_ES6_ARR = [
 
 
 // 组件类型demo
-var DEMO_NAME_COMPONENT_ARR = [
+const DEMO_NAME_COMPONENT_ARR = [
     'ViewDemo',
     'TextDemo',
     'TextInputDemo',
@@ -108,7 +112,7 @@ var DEMO_NAME_COMPONENT_ARR = [
 ];
 
 // API类型demo
-var DEMO_NAME_API_ARR = [
+const DEMO_NAME_API_ARR = [
     'FlexboxDemo',
     'LifeCycleDemo',
     '类的继承',
@@ -129,14 +133,14 @@ var DEMO_NAME_API_ARR = [
 ];
 
 // 第三方库类型demo
-var DEMO_NAME_Third_ARR = [
+const DEMO_NAME_Third_ARR = [
     'ReactNavigationDemo',
     'BannerDemo',
     'ReactNativeModalShow',
 ];
 
 
-var DEMO_NAME_ARR = [
+const DEMO_NAME_ARR = [
     {
         key:'ECMAScript6入门Demo',
         data:DEMO_NAME_ES6_ARR,
@@ -303,12 +307,12 @@ class HomePage extends Component {
                 </Text>
             </View>
         );
-    }
+    };
 
     // 生成特定的不重复的key
     _keyExtractor=(item, index)=>{
         return index.toString();
-    }
+    };
 
     // 组装header
     renderHeader=(info)=>{
@@ -318,7 +322,7 @@ class HomePage extends Component {
                 <Text style={styles.sectionTextSty}>{text}</Text>
             </View>
         );
-    }
+    };
 
     // 组装cell
     renderDemoItem=(info)=>{
@@ -357,7 +361,7 @@ class HomePage extends Component {
 
     // 跳转页面
     gotoDemoWithName(demoName) {
-        var demo = ViewDemo;
+        let demo = ViewDemo;
         let passProps = {};
 
         if(demoName ==='FlexboxDemo'){
@@ -465,8 +469,10 @@ class HomePage extends Component {
         }else if (demoName ==='变量的解构赋值'){
             demo = ES6VarJieGouFuZhi;
 
-        }
+        }else if (demoName ==='字符串的扩展'){
+            demo = ES6StringExtension;
 
+        }
 
 
         else if (demoName ==='最新提案'){

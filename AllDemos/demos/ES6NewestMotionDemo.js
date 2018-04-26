@@ -29,11 +29,11 @@ export default class ES6NewestMotion extends Component<Props> {
 
     // 组件已经渲染
     componentDidMount() {
-        // 1.
+        //
 
     }
 
-    /***************** 1. *****************/
+    /*****************  *****************/
 
 
 }
