@@ -76,6 +76,8 @@ import ES6VarJieGouFuZhi from './demos/ES6VarJieGouFuZhiDemo';
 import ES6StringExtension from './demos/ES6StringExtensionDemo';
 /*正则的扩展*/
 import ES6RegularExtension from './demos/ES6RegularExtensionDemo';
+/*数值的扩展*/
+import ES6NumberExtension from './demos/ES6NumberExtensionDemo';
 
 
 
@@ -475,6 +477,9 @@ class HomePage extends Component {
 
         }else if (demoName ==='正则的扩展'){
             demo = ES6RegularExtension;
+
+        }else if (demoName ==='数值的扩展'){
+            demo = ES6NumberExtension;
 
         }
 
