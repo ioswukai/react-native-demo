@@ -74,7 +74,8 @@ import ES6LetAndConstCommand from './demos/ES6LetAndConstCommandDemo';
 import ES6VarJieGouFuZhi from './demos/ES6VarJieGouFuZhiDemo';
 /*字符串的扩展*/
 import ES6StringExtension from './demos/ES6StringExtensionDemo';
-
+/*正则的扩展*/
+import ES6RegularExtension from './demos/ES6RegularExtensionDemo';
 
 
 
@@ -472,7 +473,14 @@ class HomePage extends Component {
         }else if (demoName ==='字符串的扩展'){
             demo = ES6StringExtension;
 
+        }else if (demoName ==='正则的扩展'){
+            demo = ES6RegularExtension;
+
         }
+
+
+
+
 
 
         else if (demoName ==='最新提案'){
