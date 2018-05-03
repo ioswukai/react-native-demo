@@ -78,7 +78,8 @@ import ES6StringExtension from './demos/ES6StringExtensionDemo';
 import ES6RegularExtension from './demos/ES6RegularExtensionDemo';
 /*数值的扩展*/
 import ES6NumberExtension from './demos/ES6NumberExtensionDemo';
-
+/*函数的扩展*/
+import ES6FunctionExtension from './demos/ES6FunctionExtensionDemo';
 
 
 
@@ -93,6 +94,10 @@ const DEMO_NAME_ES6_ARR = [
     '字符串的扩展',
     '正则的扩展',
     '数值的扩展',
+    '函数的扩展',
+    '数组的扩展',
+    '对象的扩展',
+
     '最新提案',
 ];
 
@@ -480,6 +485,9 @@ class HomePage extends Component {
 
         }else if (demoName ==='数值的扩展'){
             demo = ES6NumberExtension;
+
+        }else if (demoName ==='函数的扩展'){
+            demo = ES6FunctionExtension;
 
         }
 
