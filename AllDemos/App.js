@@ -80,6 +80,8 @@ import ES6RegularExtension from './demos/ES6RegularExtensionDemo';
 import ES6NumberExtension from './demos/ES6NumberExtensionDemo';
 /*函数的扩展*/
 import ES6FunctionExtension from './demos/ES6FunctionExtensionDemo';
+/*数组的扩展*/
+import ES6ArrayExtension from './demos/ES6ArrayExtensionDemo';
 
 
 
@@ -488,6 +490,9 @@ class HomePage extends Component {
 
         }else if (demoName ==='函数的扩展'){
             demo = ES6FunctionExtension;
+
+        }else if (demoName ==='数组的扩展'){
+            demo = ES6ArrayExtension;
 
         }
 
