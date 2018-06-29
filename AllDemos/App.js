@@ -82,6 +82,8 @@ import ES6NumberExtension from './demos/ES6NumberExtensionDemo';
 import ES6FunctionExtension from './demos/ES6FunctionExtensionDemo';
 /*数组的扩展*/
 import ES6ArrayExtension from './demos/ES6ArrayExtensionDemo';
+/*对象的扩展*/
+import ES6ObjectExtension from './demos/ES6ObjectExtensionDemo';
 
 
 
@@ -493,6 +495,9 @@ class HomePage extends Component {
 
         }else if (demoName ==='数组的扩展'){
             demo = ES6ArrayExtension;
+
+        }else if (demoName ==='对象的扩展'){
+            demo = ES6ObjectExtension;
 
         }
 
