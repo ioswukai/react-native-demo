@@ -85,11 +85,15 @@ export default class ES6ObjectExtension extends Component<Props> {
 
 
     /*****************属性名表达式  *****************/
-    objectPropName(){}
+    objectPropName(){
+
+    }
 
 
     /*****************方法的 name 属性  *****************/
-    objectFunctionName(){}
+    objectFunctionName(){
+        
+    }
 
 
     /*****************Object.is()  *****************/
