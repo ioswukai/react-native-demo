@@ -13,6 +13,9 @@ import {
 
 // 导入自定义样式
 import {CustomStyles,NavigateBar} from './CustomStyles';
+// 定义打印函数
+let l = console.log;
+
 
 export default class ES6NewestMotion extends Component<Props> {
 
