@@ -165,10 +165,12 @@ export default class ES6ClassBaseSyntax extends Component<Props> {
          * */
         class Point4 {
             constructor(name) {
+                /**构造函数里申明的属性 是类自身的属性*/
                 this.name = name;
                 this.type = 'person'
             }
 
+            /**类里面申明的属性 是构造函数原型对象上的属性*/
             toString() {
                 // ...
             }
@@ -186,7 +188,9 @@ export default class ES6ClassBaseSyntax extends Component<Props> {
 
         /**使用ES5的方式表达 如下
          * var Point4 = function () {
-         *          // Point4参数和构造函数constructor 的参数相同
+         *          // 以下代码会立即执行 且是块级作用域
+         *
+         *          // Point4参数和构造函数constructor 的参数相同 在new操作符调用的时候执行
                     function Point4(name) {
                          // 它是为了保证调用的安全性
                         _classCallCheck(this, Point4);
@@ -196,6 +200,7 @@ export default class ES6ClassBaseSyntax extends Component<Props> {
                         this.name = name;
                     }
 
+                    // 给上面的构造函数 原型对象上添加属性和方法
                     _createClass(Point4, [{
                         key: "toString",
                         value: function toString() {}
@@ -204,6 +209,7 @@ export default class ES6ClassBaseSyntax extends Component<Props> {
                         value: function toValue() {}
                     }]);
 
+                    // 自执行函数 返回构造函数 function Point4(name) 赋值给变量 var Point4
                     return Point4;
                 }();
          */
@@ -255,7 +261,7 @@ export default class ES6ClassBaseSyntax extends Component<Props> {
          *      具体代码实现如下：
          *      var _createClass = (function () {
                            // 重写了 defineProperties 方法，以达到下面的目的
-                              给目标对象（构造函数，他所对应的原型对象）上的属性，
+                              给目标对象（构造函数，或者构造函数所对应的原型对象）上的属性，
                               添加一些 enumerable  configurable  writable 等特性
                               这函数只是个操作函数，不要返回值
                             function defineProperties(target, props) {
@@ -769,12 +775,193 @@ export default class ES6ClassBaseSyntax extends Component<Props> {
 
     /*****************Class 的静态方法  *****************/
     classStaticMethod(){
+        /**类相当于实例的原型，所有在类中定义的方法，都会被实例继承。
+         * 如果在一个方法前，加上static关键字，就表示该方法不会被实例继承，
+         * 而是直接通过类来调用，这就称为“静态方法”。*/
+        class Foo {
+            static classMethod() {
+                return 'hello';
+            }
+        }
+        /**此写法转换成ES5的写法是
+         *  // 自执行函数
+         *  var Foo = function () {
+         *          //构造函数
+                    function Foo() {
+                        _classCallCheck(this, Foo);
+                    }
 
+                    // 给Foo构造函数 添加静态属性
+                    _createClass(Foo, null, [{
+                        key: "classMethod",
+                        value: function classMethod() {
+                            return 'hello';
+                        }
+                    }]);
+
+                    // 返回构造函数
+                    return Foo;
+                }();
+         * */
+
+        l(Foo.classMethod()); // 'hello'
+        var foo = new Foo();
+        // foo.classMethod()
+        // TypeError: foo.classMethod is not a function
+        /**上面代码中，Foo类的classMethod方法前有static关键字，
+         * 表明该方法是一个静态方法，可以直接在Foo类上调用（Foo.classMethod()），
+         * 而不是在Foo类的实例上调用。如果在实例上调用静态方法，会抛出一个错误，
+         * 表示不存在该方法。*/
+
+        /**注意，如果静态方法包含this关键字，这个this指的是类，而不是实例。*/
+        class Foo1 {
+            static bar () {
+                this.baz();
+            }
+            static baz () {
+                console.log('hello');
+            }
+            baz () {
+                console.log('world');
+            }
+        }
+
+        Foo1.bar() // hello
+        /**上面代码中，静态方法bar调用了this.baz，这里的this指的是Foo类，
+         * 而不是Foo的实例，等同于调用Foo.baz。另外，从这个例子还可以看出，
+         * 静态方法可以与非静态方法重名。*/
+
+        /**父类的静态方法，可以被子类继承。*/
+        class Foo2 {
+            static classMethod() {
+                return 'hello';
+            }
+        }
+
+        class Bar extends Foo2 {
+        }
+
+        l(Bar.classMethod()); // 'hello'
+        /**上面代码中，父类Foo有一个静态方法，子类Bar可以调用这个方法。*/
+
+        /**静态方法也是可以从super对象上调用的。*/
+        class Foo3 {
+            static classMethod() {
+                return 'hello';
+            }
+        }
+
+        class Bar1 extends Foo3 {
+            static classMethod() {
+                return super.classMethod() + ', too';
+            }
+        }
+
+        l(Bar1.classMethod()); // "hello, too"
     }
 
     /*****************Class 的静态属性和实例属性  *****************/
     classStaticAndInstanceProperty(){
+        /**静态属性指的是 Class 本身的属性，即Class.propName，
+         * 而不是定义在实例对象（this）上的属性。*/
+        class Foo {
+        }
 
+        Foo.prop = 1;
+        l(Foo.prop); // 1
+        /**上面的写法为Foo类定义了一个静态属性prop。*/
+
+        /**目前，只有上面这种写法可行，
+         *
+         * 因为 ES6 明确规定，
+         * Class 内部只有静态方法，没有静态属性。*/
+        // 以下两种写法都无效
+        class Foo1 {
+            // 写法一
+            prop: 2
+
+            // 写法二
+            static prop: 2
+        }
+
+        l(Foo1.prop); // undefined
+
+        /**目前有一个静态属性的提案，对实例属性和静态属性都规定了新的写法。*/
+
+
+        /**（1）类的实例属性*/
+        /**类的实例属性可以用等式，写入类的定义之中*/
+        class MyClass {
+            myProp = 42;
+
+            constructor() {
+                console.log(this.myProp); // 42
+            }
+        }
+        /**上面代码中，myProp就是MyClass的实例属性。
+         * 在MyClass的实例上，可以读取这个属性。*/
+
+        /**以前，我们定义实例属性，只能写在类的constructor方法里面。
+         * 因为写在外面就成了构造函数原型的属性了*/
+        class ReactCounter extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = {
+                    count: 0
+                };
+            }
+        }
+        /**上面代码中，构造方法constructor里面，定义了this.state属性。*/
+
+        /**有了新的写法以后，可以不在constructor方法里面定义。*/
+        class ReactCounter1 extends React.Component {
+            state = {
+                count: 0
+            };
+        }
+        /**这种写法比以前更清晰。*/
+
+        /**为了可读性的目的，对于那些在constructor里面已经定义的实例属性，
+         * 新写法允许直接列出。*/
+        class ReactCounter2 extends React.Component {
+            state;
+            constructor(props) {
+                super(props);
+                this.state = {
+                    count: 0
+                };
+            }
+        }
+
+
+        /**（2）类的静态属性*/
+        /**类的静态属性只要在上面的实例属性写法前面，加上static关键字就可以了。*/
+        class MyClass1 {
+            static myStaticProp = 42;
+
+            constructor() {
+                console.log(MyClass1.myStaticProp); // 42
+            }
+        }
+        let myClass1 = new MyClass1;
+
+        /**同样的，这个新写法大大方便了静态属性的表达。*/
+        // 老写法
+        class Foo2 {
+            // ...
+        }
+        Foo2.prop = 1;
+
+        // 新写法
+        class Foo3 {
+            static prop = 1;
+        }
+        l(Foo2.prop);
+        l(Foo3.prop);
+        /**上面代码中，老写法的静态属性定义在类的外部。
+         * 整个类生成以后，再生成静态属性。
+         * 这样让人很容易忽略这个静态属性，也不符合相关代码应该放在一起的代码组织原则。
+         * 另外，新写法是显式声明（declarative），而不是赋值处理，语义更好。*/
     }
 
     /*****************new.target 属性  *****************/
