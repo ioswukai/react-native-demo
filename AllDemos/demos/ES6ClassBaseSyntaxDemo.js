@@ -874,7 +874,8 @@ export default class ES6ClassBaseSyntax extends Component<Props> {
         /**目前，只有上面这种写法可行，
          *
          * 因为 ES6 明确规定，
-         * Class 内部只有静态方法，没有静态属性。*/
+         * Class 内部只有静态方法，没有静态属性。！！！！！
+         * */
         // 以下两种写法都无效
         class Foo1 {
             // 写法一
@@ -886,22 +887,44 @@ export default class ES6ClassBaseSyntax extends Component<Props> {
 
         l(Foo1.prop); // undefined
 
+
         /**目前有一个静态属性的提案，对实例属性和静态属性都规定了新的写法。*/
 
 
         /**（1）类的实例属性*/
         /**类的实例属性可以用等式，写入类的定义之中*/
         class MyClass {
+            /**此属性最终会在 构造函数里运行且申明 绑定在实例对象上
+             *
+             * 而不会像方法那样，在原型对象上绑定。
+             *
+             * 注意前面没有变量申明关键字 var 或者let，因为实例的属性本身就是申明了变量
+             * */
             myProp = 42;
 
             constructor() {
                 console.log(this.myProp); // 42
             }
         }
-        /**上面代码中，myProp就是MyClass的实例属性。
+        /**此写法转换成ES5的写法是
+         *
+         *      var MyClass = function MyClass() {
+         *          // 检查类的调用
+                    _classCallCheck(this, MyClass);
+
+                    // 声明实例属性
+                    this.myProp = 42;
+                    // 构造方法里的调用
+                    console.log(this.myProp);
+                };
+         *
+         * */
+
+         /**上面代码中，myProp就是MyClass的实例属性。
          * 在MyClass的实例上，可以读取这个属性。*/
 
-        /**以前，我们定义实例属性，只能写在类的constructor方法里面。
+
+         /**以前，我们定义实例属性，只能写在类的constructor方法里面。
          * 因为写在外面就成了构造函数原型的属性了*/
         class ReactCounter extends React.Component {
             constructor(props) {
@@ -937,6 +960,9 @@ export default class ES6ClassBaseSyntax extends Component<Props> {
         /**（2）类的静态属性*/
         /**类的静态属性只要在上面的实例属性写法前面，加上static关键字就可以了。*/
         class MyClass1 {
+            /**此写法 会转换成 先申明构造函数，然后在构造函数外面，
+             * 给构造函数赋值静态属性
+             * */
             static myStaticProp = 42;
 
             constructor() {
@@ -944,6 +970,21 @@ export default class ES6ClassBaseSyntax extends Component<Props> {
             }
         }
         let myClass1 = new MyClass1;
+        /**
+         *  此写法转换成ES5的写法是
+         *
+         *      // 申明构造函数
+         *      var MyClass1 = function MyClass1() {
+                    _classCallCheck(this, MyClass1);
+
+                    console.log(MyClass1.myStaticProp);
+                };
+
+                // 在构造函数外面 赋值静态属性
+                MyClass1.myStaticProp = 42;
+                var myClass1 = new MyClass1();
+         * */
+
 
         /**同样的，这个新写法大大方便了静态属性的表达。*/
         // 老写法
@@ -966,6 +1007,74 @@ export default class ES6ClassBaseSyntax extends Component<Props> {
 
     /*****************new.target 属性  *****************/
     classTargetProperty(){
+        /**new是从构造函数生成实例对象的命令。
+         * ES6 为new命令引入了一个new.target属性，该属性一般用在构造函数之中，
+         * 返回new命令作用于的那个构造函数。
+         * 如果构造函数不是通过new命令调用的，new.target会返回undefined，
+         * 因此这个属性可以用来确定构造函数是怎么调用的。*/
+        function Person(name) {
+            if (new.target !== undefined) {
+                this.name = name;
+            } else {
+                throw new Error('必须使用 new 命令生成实例');
+            }
+        }
+        var person = new Person('张三'); // 正确
+        // var notAPerson = Person.call(person, '张三');  // 报错
 
+        // 另一种写法
+        function Person1(name) {
+            if (new.target === Person1) {
+                this.name = name;
+            } else {
+                throw new Error('必须使用 new 命令生成实例');
+            }
+        }
+        var person1 = new Person1('李四'); // 正确
+        /**上面代码确保构造函数只能通过new命令调用。*/
+
+        /**需要注意的是，子类继承父类时，new.target会返回子类。*/
+        class Rectangle {
+
+            constructor(length, width) {
+                console.log(new.target === Rectangle);
+                // ...
+            }
+            logHaha(){
+            }
+        }
+
+        class Square extends Rectangle {
+
+            constructor(length) {
+                super(length, length);
+            }
+        }
+
+        var obj = new Square(3); // 输出 false
+        l(obj.logHaha);
+
+        /**利用这个特点，可以写出不能独立使用、必须继承后才能使用的类。*/
+        class Shape {
+            constructor() {
+                if (new.target === Shape) {
+                    throw new Error('本类不能实例化');
+                }
+            }
+        }
+
+        class Rectangle1 extends Shape {
+            constructor(length, width) {
+                super();
+                // ...
+            }
+        }
+
+        // var x = new Shape();  // 报错
+        var y = new Rectangle(3, 4);  // 正确
+
+        /**上面代码中，Shape类不能被实例化，只能用于继承。
+
+         注意，在函数外部，使用new.target会报错。*/
     }
 }
