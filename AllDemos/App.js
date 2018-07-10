@@ -86,6 +86,8 @@ import ES6ArrayExtension from './demos/ES6ArrayExtensionDemo';
 import ES6ObjectExtension from './demos/ES6ObjectExtensionDemo';
 /*Class的基本语法*/
 import ES6ClassBaseSyntax from './demos/ES6ClassBaseSyntaxDemo';
+/*Class的继承*/
+import ES6ClassInherit from './demos/ES6ClassInheritDemo';
 
 
 /*最新提案*/
@@ -103,6 +105,7 @@ const DEMO_NAME_ES6_ARR = [
     '数组的扩展',
     '对象的扩展',
     'Class的基本语法',
+    'Class的继承',
 
 
     '最新提案',
@@ -504,6 +507,9 @@ class HomePage extends Component {
 
         }else if (demoName ==='Class的基本语法'){
             demo = ES6ClassBaseSyntax;
+
+        }else if (demoName ==='Class的继承'){
+            demo = ES6ClassInherit;
 
         }
 
