@@ -49,6 +49,7 @@ export default class ES6ClassInherit extends Component<Props> {
 
         // Mixin 模式的实现
         this.classInheritMixin();
+
     }
 
     /*****************简介  *****************/
@@ -618,10 +619,14 @@ export default class ES6ClassInherit extends Component<Props> {
             get m() {
                 return super.p;
             }
+            get t(){
+                return this.p;
+            }
         }
 
         let b4 = new B4();
         l(b4.m); // undefined
+        l('我是通过this得到的p = '+b4.t); // 2
         /**上面代码中，p是父类A实例的属性，super.p就引用不到它。*/
 
         /**如果属性定义在父类的原型对象上，super就可以取到。*/
@@ -1098,9 +1103,10 @@ export default class ES6ClassInherit extends Component<Props> {
         }
 
         /**上面代码的mix函数，可以将多个对象合成为一个类。使用的时候，只要继承这个类即可。*/
-        class DistributedEdit extends mix(Loggable, Serializable) {
-            // ...
-        }
+        // class DistributedEdit extends mix(Loggable, Serializable) {
+        //     // ...
+        // }
+
     }
 
 
